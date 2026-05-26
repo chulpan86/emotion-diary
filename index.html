@@ -275,12 +275,11 @@
       <div class="onboard-area">
         <div class="ob-emoji" id="obEmoji"></div>
         <div class="ob-q serif">어떻게 불러드릴까요?</div>
-        <div class="ob-d">기록 화면에서 이 이름으로 인사할게요</div>
+        <div class="ob-d">기록 화면에서 이 이름으로 인사할게요<br>비워두고 시작해도 괜찮아요</div>
         <input id="nameInput" class="ob-input" type="text" maxlength="10" placeholder="이름 또는 별명" autocomplete="off" oninput="checkName()" onkeydown="if(event.key==='Enter')finishOnboard()">
-        <div class="ob-skip" onclick="finishOnboard(true)">이름 없이 시작할래요</div>
       </div>
       <div class="login-bottom">
-        <div class="gbtn primary" id="obStart" onclick="finishOnboard()" style="opacity:0.5;pointer-events:none;">
+        <div class="gbtn primary" id="obStart" onclick="finishOnboard()">
           <span>기록 시작하기</span>
         </div>
       </div>
@@ -700,14 +699,9 @@ function setGreeting(){
 }
 
 /* ===== 온보딩 / 초기화 / 설치 / 공유 / 백업 ===== */
-function checkName(){
+function checkName(){ /* 이름은 선택사항 — 버튼은 항상 활성화 */ }
+function finishOnboard(){
   const v = document.getElementById('nameInput').value.trim();
-  const btn = document.getElementById('obStart');
-  if(v.length>0){ btn.style.opacity='1'; btn.style.pointerEvents='auto'; }
-  else { btn.style.opacity='0.5'; btn.style.pointerEvents='none'; }
-}
-function finishOnboard(skip){
-  const v = skip ? '' : document.getElementById('nameInput').value.trim();
   userName = v;
   saveName(v);
   try { localStorage.setItem(SEEN_KEY,'1'); } catch(e){}
