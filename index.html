@@ -26,16 +26,13 @@
   .device { width: 390px; height: 844px; background: #1a1a1a; border-radius: 54px; padding: 11px;
     box-shadow: 0 20px 60px rgba(0,0,0,0.25); position: relative; }
   .screen-wrap { width: 100%; height: 100%; background: var(--bg); border-radius: 44px; overflow: hidden; position: relative; }
-  .statusbar { display: flex; justify-content: space-between; align-items: center;
-    padding: 16px 28px 4px; font-size: 14px; font-weight: 600; flex-shrink: 0; }
-  .statusbar .right { font-size: 13px; }
   .screen { display: none; flex-direction: column; height: 100%; }
   .screen.active { display: flex; }
   .home-ind { position: absolute; bottom: 9px; left: 50%; transform: translateX(-50%);
     width: 130px; height: 5px; background: #1a1a1a; border-radius: 3px; opacity: 0.35; z-index: 50; }
 
   /* LOGIN */
-  #login .logo-area { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 0 32px; }
+  #login .logo-area { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: env(safe-area-inset-top, 0px) 32px 0; }
   .logo-symbol { margin-bottom: 22px; }
   .logo-word { font-size: 30px; font-weight: 600; letter-spacing: -1px; }
   .logo-dot { display: inline-block; width: 8px; height: 8px; background: var(--coral); border-radius: 50%; vertical-align: baseline; margin-left: 3px; }
@@ -52,7 +49,7 @@
   .login-note { font-size: 11px; color: #B8A795; text-align: center; margin-top: 14px; line-height: 1.6; }
 
   /* ONBOARD (이름 정하기) */
-  #onboard .acc-head { padding: 8px 14px 0; }
+  #onboard .acc-head { padding: calc(env(safe-area-inset-top, 0px) + 16px) 14px 0; }
   .onboard-area { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 0 36px; }
   .ob-emoji { margin-bottom: 22px; }
   .ob-q { font-size: 24px; font-weight: 600; letter-spacing: -0.5px; }
@@ -87,7 +84,7 @@
   .install-sheet .done-btn:active { transform: scale(0.98); }
 
   /* TOPBAR */
-  .topbar { display: flex; align-items: center; justify-content: space-between; padding: 6px 22px 0; flex-shrink: 0; }
+  .topbar { display: flex; align-items: center; justify-content: space-between; padding: calc(env(safe-area-inset-top, 0px) + 14px) 22px 0; flex-shrink: 0; }
   .topbar .mini-logo { font-size: 17px; font-weight: 600; letter-spacing: -0.5px; }
   .topbar .mini-dot { display: inline-block; width: 5px; height: 5px; background: var(--coral); border-radius: 50%; vertical-align: baseline; margin-left: 1px; }
   .icon-btn { width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; border-radius: 50%; cursor: pointer; font-size: 19px; color: var(--muted); }
@@ -174,7 +171,7 @@
   .btn-only { flex: 1; background: var(--white); color: var(--muted); border: 1px solid var(--line); }
 
   /* ACCOUNT */
-  .acc-head { display: flex; align-items: center; gap: 8px; padding: 8px 20px 14px; flex-shrink: 0; }
+  .acc-head { display: flex; align-items: center; gap: 8px; padding: calc(env(safe-area-inset-top, 0px) + 16px) 20px 14px; flex-shrink: 0; }
   .acc-head .back { font-size: 22px; cursor: pointer; }
   .acc-head .title { font-size: 17px; font-weight: 600; }
   .profile { display: flex; flex-direction: column; align-items: center; padding: 10px 20px 22px; }
@@ -219,26 +216,18 @@
     body { background: var(--bg); padding: 0; align-items: stretch; }
     .device { width: 100%; height: 100vh; height: 100dvh; border-radius: 0; padding: 0; box-shadow: none; }
     .screen-wrap { border-radius: 0; }
-    /* 실제 기기 상태바와 겹치므로 가짜 상태바 숨김 */
-    .statusbar { display: none; }
-    /* 가짜 상태바가 사라진 만큼 실제 노치/상태바 영역만큼 여백 확보 */
-    .topbar { padding-top: calc(env(safe-area-inset-top, 20px) + 8px); }
-    .acc-head { padding-top: calc(env(safe-area-inset-top, 20px) + 10px); }
-    .logo-area { padding-top: env(safe-area-inset-top, 20px); }
-    #onboard .acc-head { padding-top: calc(env(safe-area-inset-top, 20px) + 10px); }
     .home-ind { display: none; }
   }
-  /* iOS 홈화면 실행 시 (구형 사파리 호환) */
   @media (display-mode: fullscreen) {
-    .statusbar { display: none; }
-    .topbar { padding-top: calc(env(safe-area-inset-top, 20px) + 8px); }
-    .acc-head { padding-top: calc(env(safe-area-inset-top, 20px) + 10px); }
+    body { background: var(--bg); padding: 0; align-items: stretch; }
+    .device { width: 100%; height: 100vh; height: 100dvh; border-radius: 0; padding: 0; box-shadow: none; }
+    .screen-wrap { border-radius: 0; }
+    .home-ind { display: none; }
   }
   /* JS 감지 기반 (미디어쿼리 미지원 브라우저 보강) */
-  body.standalone .statusbar { display: none; }
-  body.standalone .topbar { padding-top: calc(env(safe-area-inset-top, 20px) + 8px); }
-  body.standalone .acc-head { padding-top: calc(env(safe-area-inset-top, 20px) + 10px); }
-  body.standalone .logo-area { padding-top: env(safe-area-inset-top, 20px); }
+  body.standalone .device { width: 100%; height: 100vh; height: 100dvh; border-radius: 0; padding: 0; box-shadow: none; }
+  body.standalone .screen-wrap { border-radius: 0; }
+  body.standalone .home-ind { display: none; }
 
   /* 좁은 화면(실제 모바일 브라우저)에서도 프레임 꽉 차게 */
   @media (max-width: 440px) {
@@ -254,7 +243,6 @@
 
     <!-- WELCOME (start screen, device-stored) -->
     <div class="screen active" id="login">
-      <div class="statusbar"><span id="sb-login">9:41</span><span class="right">●●● ▮</span></div>
       <div class="logo-area">
         <svg class="logo-symbol" width="120" height="56" viewBox="0 0 120 56">
           <line x1="6" y1="42" x2="114" y2="42" stroke="#E5DDD3" stroke-width="0.6"/>
@@ -281,7 +269,6 @@
 
     <!-- ONBOARD (이름 정하기) -->
     <div class="screen" id="onboard">
-      <div class="statusbar"><span>9:41</span><span class="right">●●● ▮</span></div>
       <div class="acc-head">
         <div class="back" onclick="go('login')">‹</div>
       </div>
@@ -302,7 +289,6 @@
 
     <!-- HOME (single scroll: greeting + dial + calendar + review) -->
     <div class="screen" id="home">
-      <div class="statusbar"><span>9:41</span><span class="right">●●● ▮</span></div>
       <div class="topbar">
         <div class="mini-logo serif">감정다이어리<span class="mini-dot"></span></div>
         <div class="icon-btn" onclick="go('account')">&#9776;</div>
@@ -339,7 +325,6 @@
 
     <!-- ACCOUNT -->
     <div class="screen" id="account">
-      <div class="statusbar"><span>9:41</span><span class="right">●●● ▮</span></div>
       <div class="acc-head">
         <div class="back" onclick="go('home')">‹</div>
         <div class="title serif">내 기록</div>
