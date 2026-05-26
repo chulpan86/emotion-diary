@@ -3,6 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+<!-- 링크 공유 시 미리보기 (카톡/슬랙/인스타 등) -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="감정다이어리">
+<meta property="og:description" content="하루의 마침표, 나의 좌표 — 매일의 감정을 기록하는 작은 다이어리">
+<meta property="og:image" content="https://chulpan86.github.io/emotion-diary/og-image.png">
+<meta property="og:url" content="https://chulpan86.github.io/emotion-diary/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="감정다이어리">
+<meta name="twitter:description" content="하루의 마침표, 나의 좌표 — 매일의 감정을 기록하는 작은 다이어리">
+<meta name="twitter:image" content="https://chulpan86.github.io/emotion-diary/og-image.png">
 <title>감정다이어리</title>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -725,15 +735,26 @@ function switchInstall(os){
   document.getElementById('steps-aos').classList.toggle('on', os==='aos');
 }
 async function shareApp(){
-  const shareData = {
-    title: '감정다이어리',
-    text: '하루의 마침표, 나의 좌표 — 매일 감정을 기록하는 작은 다이어리예요. 같이 써볼래요?',
-    url: location.href
-  };
+  const shareText = '하루의 마침표, 나의 좌표 — 매일 감정을 기록하는 작은 다이어리예요. 같이 써볼래요?';
+  const shareUrl = location.href;
+  // 1) 이미지 파일까지 첨부해서 공유 시도 (지원 기기)
   try {
-    if(navigator.share){ await navigator.share(shareData); }
-    else {
-      await navigator.clipboard.writeText(shareData.text+'\n'+shareData.url);
+    const res = await fetch('og-image.png');
+    if(res.ok){
+      const blob = await res.blob();
+      const file = new File([blob], 'emotion-diary.png', {type:'image/png'});
+      if(navigator.canShare && navigator.canShare({files:[file]})){
+        await navigator.share({ title:'감정다이어리', text:shareText+'\n'+shareUrl, files:[file] });
+        return;
+      }
+    }
+  } catch(e){}
+  // 2) 이미지 첨부 불가 → 텍스트+링크 공유
+  try {
+    if(navigator.share){
+      await navigator.share({ title:'감정다이어리', text:shareText, url:shareUrl });
+    } else {
+      await navigator.clipboard.writeText(shareText+'\n'+shareUrl);
       toast('공유 링크를 복사했어요');
     }
   } catch(e){}
